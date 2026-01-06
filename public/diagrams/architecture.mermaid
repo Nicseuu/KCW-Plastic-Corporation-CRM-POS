@@ -1,0 +1,76 @@
+graph TD
+    subgraph External_Platforms [External Platforms]
+        TikTok[TikTok Shop]
+        Shopee[Shopee]
+        Facebook[Facebook Marketplace]
+    end
+
+    subgraph Integrations_Service [Integrations Service]
+        Auth[Platform Auth]
+        MsgSync[Message Sync]
+        OrderSync[Order Sync]
+        ProdSync[Product Sync]
+    end
+
+    External_Platforms --> Integrations_Service
+
+    subgraph Core_Data_Layer [Core Data Layer]
+        Users[Users and Roles]
+        Products[Products]
+        Customers[Customers]
+        OrdersTable[Orders]
+        OrderItems[Order Items]
+        InventoryTable[Inventory]
+        InventoryLogs[Inventory Logs]
+        PaymentsTable[Payments]
+        MessagesTable[Messages]
+    end
+
+    Integrations_Service --> Core_Data_Layer
+
+    subgraph Operation_Modules [Operation Modules]
+        Inbox[Inbox]
+        POS[POS]
+        OrdersMod[Orders]
+        Picklist[Picklist]
+    end
+
+    Core_Data_Layer <--> Inbox
+    Core_Data_Layer <--> POS
+    Core_Data_Layer <--> OrdersMod
+    Core_Data_Layer <--> Picklist
+
+    Inbox --> Customers
+    Inbox --> OrdersTable
+
+    POS --> OrdersTable
+    POS --> PaymentsTable
+    POS --> InventoryTable
+    POS --> Customers
+
+    OrdersMod --> Picklist
+
+    Picklist --> InventoryTable
+    Picklist --> OrdersTable
+
+    subgraph Read_Only_Modules [Read Only Modules]
+        Dashboard[Dashboard]
+        Reports[Reports]
+    end
+
+    OrdersTable -.-> Dashboard
+    PaymentsTable -.-> Dashboard
+    InventoryTable -.-> Dashboard
+    Customers -.-> Dashboard
+
+    OrdersTable -.-> Reports
+    PaymentsTable -.-> Reports
+    InventoryTable -.-> Reports
+    Customers -.-> Reports
+
+    style Core_Data_Layer fill:#f9f,stroke:#333,stroke-width:4px
+    style Read_Only_Modules fill:#fff,stroke:#333,stroke-dasharray: 5 5
+
+    %% Rule text at bottom
+    Rule[All writes go to Core Data Layer. Dashboard and Reports are read only.]
+    Rule --- Read_Only_Modules
