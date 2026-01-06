@@ -27,7 +27,6 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import kcwLogo from "@assets/KCW_LOGO_1767645349433.png";
 
 const menuItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
@@ -58,15 +57,18 @@ export function AppSidebar() {
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-3">
           <div className="flex-shrink-0 w-12 h-12 bg-white rounded-lg p-1.5 flex items-center justify-center">
-            <img 
-              src={kcwLogo} 
-              alt="KCW Logo" 
+            <img
+              src="/assets/kcw-logo.png"
+              alt="KCW Logo"
               className="w-full h-full object-contain"
               data-testid="img-kcw-logo"
             />
           </div>
           <div className="flex flex-col min-w-0">
-            <span className="text-sm font-semibold text-white truncate" data-testid="text-company-name">
+            <span
+              className="text-sm font-semibold text-white truncate"
+              data-testid="text-company-name"
+            >
               KCW PLASTIC
             </span>
             <span className="text-xs text-white/70 truncate">
@@ -84,8 +86,10 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => {
-                const isActive = location === item.url || 
+                const isActive =
+                  location === item.url ||
                   (item.url !== "/" && location.startsWith(item.url));
+
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
@@ -93,7 +97,7 @@ export function AppSidebar() {
                       isActive={isActive}
                       className="text-white/90 hover:text-white hover:bg-white/10 data-[active=true]:bg-white data-[active=true]:text-sidebar"
                     >
-                      <Link href={item.url} data-testid={`link-${item.title.toLowerCase()}`}>
+                      <Link href={item.url}>
                         <item.icon className="w-5 h-5" />
                         <span className="font-medium">{item.title}</span>
                       </Link>
@@ -113,6 +117,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {settingsItems.map((item) => {
                 const isActive = location === item.url;
+
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
@@ -120,7 +125,7 @@ export function AppSidebar() {
                       isActive={isActive}
                       className="text-white/90 hover:text-white hover:bg-white/10 data-[active=true]:bg-white data-[active=true]:text-sidebar"
                     >
-                      <Link href={item.url} data-testid={`link-${item.title.toLowerCase()}`}>
+                      <Link href={item.url}>
                         <item.icon className="w-5 h-5" />
                         <span className="font-medium">{item.title}</span>
                       </Link>
@@ -140,7 +145,7 @@ export function AppSidebar() {
               <User className="w-4 h-4 text-white" />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-sm text-white font-medium truncate" data-testid="text-sidebar-user">
+              <span className="text-sm text-white font-medium truncate">
                 {user?.fullName || user?.username || "User"}
               </span>
               <span className="text-xs text-white/70 truncate">
@@ -153,7 +158,6 @@ export function AppSidebar() {
             size="icon"
             onClick={handleLogout}
             className="text-white/70 hover:text-white hover:bg-white/10 flex-shrink-0"
-            data-testid="button-logout"
           >
             <LogOut className="w-4 h-4" />
           </Button>
